@@ -28,11 +28,11 @@ Thu Jan 28 14:56:01.414 UTC
 ~~~
 And then, in running context :
 
-
+~~~
 RP/0/RP0/CPU0:NCS#run
 [xr-vm_node0_RP0_CPU0:~]$iosclock -e 0x0
 14:59:07.834 UTC Thu Jan 28 2021
-
+~~~
 
 Or in python :
 
