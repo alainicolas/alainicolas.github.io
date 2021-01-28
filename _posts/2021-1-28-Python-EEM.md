@@ -11,7 +11,7 @@ Examples were taken on IOS-XR 6.3.3.
 ### Python on XR?
 eXR platforms are powered with Linux kernel, and includes Python. Let's start slowly, and call a show clock in python. To find the system version of your favorite IOS-XR regular command, you can use the command "describe" :
 
-````
+```
 RP/0/RP0/CPU0:NCS#describe show clock 
 The command is defined in iosclock.parser
 
