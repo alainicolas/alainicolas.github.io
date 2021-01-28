@@ -3,9 +3,6 @@ layout: post
 title: Mixing Python and EEM on XR
 ---
 
-## Mixing Python and EEM on XR 
-### Introduction
-
 Embedded Event Manager scripts are used since ages to capture outputs, or make action right after an external trigger. Unfortunately, they are still limited to the good old TCL language. Nowadays, the majority of engineers prefer modern languages, like Python. So let's mix things up!
 
 Examples were taken on IOS-XR 6.3.3.
@@ -14,7 +11,7 @@ Examples were taken on IOS-XR 6.3.3.
 ### Python on XR?
 eXR platforms are powered with Linux kernel, and includes Python. Let's start slowly, and call a show clock in python. To find the system version of your favorite IOS-XR regular command, you can use the command "describe" :
 
-`
+````
 RP/0/RP0/CPU0:NCS#describe show clock 
 The command is defined in iosclock.parser
 
@@ -28,7 +25,7 @@ Thu Jan 28 14:56:01.414 UTC
   Spawn the process:
         iosclock -e 0x0 
 
-`
+```
 And then, in running context :
 
 
