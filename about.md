@@ -11,7 +11,7 @@ I am Alain, 32 years old network engineer working for Cisco. I also used to relo
 
 I am living in Cannes, France.
 
-![Blowing in the wind](/images/blowinginthewind.jpg){:height="192px" width="192px"}
+![Blowing in the wind](/images/blowinginthewind.jpg){:height="230px" width="230px"}
 
 _Casualy marrying friends in my spare time._
 
