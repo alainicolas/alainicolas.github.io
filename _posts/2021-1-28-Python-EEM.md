@@ -8,7 +8,7 @@ Embedded Event Manager scripts are used since ages to capture outputs, or make a
 Examples were taken on IOS-XR 6.3.3.
 
 {:refdef: style="text-align: center;"}
-![EEMandPython](/images/eempython.jpg){:height="230px" width="230px"}
+![EEMandPython](/images/eempython.jpg){:height="230px" width="480px"}
 {: refdef}
 
 ### Python on XR?
