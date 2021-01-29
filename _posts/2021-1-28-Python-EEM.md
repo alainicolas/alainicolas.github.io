@@ -42,7 +42,6 @@ Or in python :
 [xr-vm_node0_RP0_CPU0:~]$python
 Python 2.7.3 (default, Nov 16 2019, 21:56:43) 
 [GCC 4.9.1] on linux2
-Type "help", "copyright", "credits" or "license" for more information.
 >>> from subprocess import call
 >>> call(['iosclock', '-e', '0x0'])
 15:06:47.103 UTC Thu Jan 28 2021
