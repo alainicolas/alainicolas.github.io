@@ -65,6 +65,81 @@ Thu Jan 28 15:09:36.308 UTC
 0
 ~~~
 
+## The good old EEM
+
+Small refresh on how to do an EEM script. Don't forget your aaa configuration! You will also need a user able to execute a script. In a nutshell :
+
+~~~
+event manager environment _cron_entry */1 * * * *
+event manager directory user policy disk0:/script
+event manager policy eem_throttle.tcl username cisco persist-time 3600 type user
+!
+aaa authorization eventmanager default local
+~~~
+
+What are those commands?
++ event manager **environment** is the variable that our script will call. It helps us manage the cron value we are going to use dynamically.
++ event manager **directory** is where all the file related to our EEM are going to be located.
++ event manager **policy** is the declaration of our script, where cisco is the user.
+
+We are now ready to launch eem_throttle.tcl. 
+~~~
+::cisco::eem::event_register_timer cron name crontimer2 cron_entry $_cron_entry maxrun 240
+namespace import ::cisco::eem::*
+namespace import ::cisco::lib::*
+
+if [catch {cli_open} result] {
+ error $result $errorInfo
+  } else {
+    array set cli1 $result
+    }
+
+if [catch {cli_exec $cli1(fd) "run python /disk0\:/throttle.py"} result] {
+ error $result $errorInfo
+}
+
+if [catch {cli_close $cli1(fd) $cli1(tty_id)} result] {
+ error $result $errorInfo
+}
+~~~
+
+Pretty simple : this tcl script will open the CLI, execute throttle.py, and close the CLI.
+
+## Add a touch of python
+
+Here is a python script used in a real production environment. Basically, it checked if we have any BGP session throttling on RR.
+
+~~~
+RP/0/RP0/CPU0:RR#sh bgp update out sub-group brief
+  SG             UG      Status    Limit      OutQ       SG-R Nbrs Version    (PendVersion)
+  0.4            0.8     Throttled 335544     288672     0    20   1993968    (1993881) 
+~~~
+
+Our Python script 
+Explanation...
+
+~~~
+import subprocess
+from subprocess import call
+import re
+import StringIO
+
+
+cmd_list = ['bgp_show -updgen -updgencmd sgrp -V default -A 0x1 -W 0x1 -brief -instance default']
+for item in cmd_list:
+  args = item.split()
+  p = subprocess.Popen(args, stdout=subprocess.PIPE)
+  (output, Err) = p.communicate()
+  p_status = p.wait()
+  buf=StringIO(output)
+  #For each line of the output, checking if I have the work "Throttle"/"Normal"
+  #If yes, append to result file with timestamp
+  for lines in buf.read().split("\n"):
+    if re.search("Throttle", lines):
+      call(['logger','This device has a BGP session Throttling']) 
+
+~~~
+
 ### Conclusion
 
 
