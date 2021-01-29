@@ -83,7 +83,7 @@ What are those commands?
 + event manager **policy** is the declaration of our script, where cisco is the user.
 
 We are now ready to launch eem_throttle.tcl. 
-~~~
+~~~bash
 ::cisco::eem::event_register_timer cron name crontimer2 cron_entry $_cron_entry maxrun 240
 namespace import ::cisco::eem::*
 namespace import ::cisco::lib::*
@@ -105,7 +105,7 @@ if [catch {cli_close $cli1(fd) $cli1(tty_id)} result] {
 
 Pretty simple : this tcl script will open the CLI, execute throttle.py, and close the CLI.
 
-## Add a touch of python
+## A touch of python
 
 Here is a python script used in a real production environment. Basically, it checked if we have any BGP session throttling on RR.
 
@@ -118,7 +118,7 @@ RP/0/RP0/CPU0:RR#sh bgp update out sub-group brief
 Our Python script 
 Explanation...
 
-~~~
+~~~python
 import subprocess
 from subprocess import call
 import re
