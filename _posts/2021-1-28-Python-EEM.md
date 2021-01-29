@@ -7,6 +7,9 @@ Embedded Event Manager scripts are used since ages to capture outputs, or make a
 
 Examples were taken on IOS-XR 6.3.3.
 
+{:refdef: style="text-align: center;"}
+![My Image]({{ site.baseimg }}/images/eempython.jpg)
+{: refdef}
 
 ### Python on XR?
 eXR platforms are powered with Linux kernel, and includes Python. Let's start slowly, and call a show clock in python. To find the system version of your favorite IOS-XR regular command, you can use the command "describe" :
