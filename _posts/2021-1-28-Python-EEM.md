@@ -108,7 +108,7 @@ Pretty simple : this tcl script will open the CLI, execute throttle.py, and clos
 ## A touch of python
 
 Here is a python script used in a real production environment. Basically, it checked if we have any BGP session throttling on RR.
-
+The standard command output:
 ~~~
 RP/0/RP0/CPU0:RR#sh bgp update out sub-group brief
   SG             UG      Status    Limit      OutQ       SG-R Nbrs Version    (PendVersion)
@@ -116,6 +116,7 @@ RP/0/RP0/CPU0:RR#sh bgp update out sub-group brief
 ~~~
 
 And here is a small python script to simplify network operator's life. It generates a log message each time our script catch a throttling BGP session.
+
 
 ~~~python
 import subprocess
@@ -136,4 +137,4 @@ for item in cmd_list:
 
 ### Conclusion
 
-It is now up to you to use python on your XR device to solve real life use cases!
+To sum up, we used python to get usual CLI output, EEM Script to schedule when we want to play our script, and once again, python to react to the output. It is now up to you to use python on your XR device to solve your real life use cases!
