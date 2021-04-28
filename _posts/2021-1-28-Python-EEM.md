@@ -15,18 +15,18 @@ Examples were taken on IOS-XR 6.3.3.
 eXR platforms are powered with Linux kernel, and includes Python. Let's start slowly, and call a show clock in python. To find the system version of your favorite IOS-XR regular command, you can use the command "describe" :
 
 ~~~
-RP/0/RP0/CPU0:NCS#describe show clock 
+RP/0/RP0/CPU0:NCS#describe show clock
 The command is defined in iosclock.parser
 
 
 User needs ALL of the following taskids:
 
-        basic-services (READ) 
+        basic-services (READ)
 
 It will take the following actions:
 Thu Jan 28 14:56:01.414 UTC
   Spawn the process:
-        iosclock -e 0x0 
+        iosclock -e 0x0
 
 ~~~
 And then, in running context :
@@ -40,7 +40,7 @@ RP/0/RP0/CPU0:NCS#run
 Or in python :
 ~~~
 [xr-vm_node0_RP0_CPU0:~]$python
-Python 2.7.3 (default, Nov 16 2019, 21:56:43) 
+Python 2.7.3 (default, Nov 16 2019, 21:56:43)
 [GCC 4.9.1] on linux2
 >>> from subprocess import call
 >>> call(['iosclock', '-e', '0x0'])
@@ -52,7 +52,7 @@ For some commands we may have a lot of options and arguments, so these ones shou
 Directly from a script :
 
 ~~~
-[xr-vm_node0_RP0_CPU0:~]$cat test.py 
+[xr-vm_node0_RP0_CPU0:~]$cat test.py
 from subprocess import call
 output = call(['iosclock', '-e', '0x0'])
 print output
@@ -82,7 +82,7 @@ What are those commands?
 + event manager **directory** is where all the file related to our EEM are going to be located.
 + event manager **policy** is the declaration of our script, where cisco is the user.
 
-We are now ready to launch eem_throttle.tcl. 
+We are now ready to launch eem_throttle.tcl.
 ~~~bash
 ::cisco::eem::event_register_timer cron name crontimer2 cron_entry $_cron_entry maxrun 240
 namespace import ::cisco::eem::*
@@ -112,35 +112,28 @@ Here is a python script used in a real production environment. Basically, it che
 ~~~
 RP/0/RP0/CPU0:RR#sh bgp update out sub-group brief
   SG             UG      Status    Limit      OutQ       SG-R Nbrs Version    (PendVersion)
-  0.4            0.8     Throttled 335544     288672     0    20   1993968    (1993881) 
+  0.4            0.8     Throttled 335544     288672     0    20   1993968    (1993881)
 ~~~
 
-Our Python script 
-Explanation...
+And here is a small python script to simplify network operator's life. It generates a log message each time our script catch a throttling BGP session.
 
 ~~~python
 import subprocess
 from subprocess import call
 import re
-import StringIO
-
 
 cmd_list = ['bgp_show -updgen -updgencmd sgrp -V default -A 0x1 -W 0x1 -brief -instance default']
+
 for item in cmd_list:
-  args = item.split()
-  p = subprocess.Popen(args, stdout=subprocess.PIPE)
-  (output, Err) = p.communicate()
-  p_status = p.wait()
-  buf=StringIO(output)
-  #For each line of the output, checking if I have the work "Throttle"/"Normal"
-  #If yes, append to result file with timestamp
-  for lines in buf.read().split("\n"):
-    if re.search("Throttle", lines):
-      call(['logger','This device has a BGP session Throttling']) 
+    args = item.split()
+    p = subprocess.Popen(args, stdout=subprocess.PIPE)
+    (output, Err) = p.communicate()
+    p_status = p.wait()
+    if re.search("Throttled", output):
+      call(['logger','TESTING - This device has a BGP session Throttling']
 
 ~~~
 
 ### Conclusion
 
-
-
+It is now up to you to use python on your XR device to solve real life use cases!
